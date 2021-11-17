@@ -1,0 +1,142 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bgColor: #aaffd1;
+  --primaryColor: #ffa500;
+  --secondColor: #ffff00;
+  --thirdColor: #ff4500;
+  --tipColor: #f5f5dc;
+  --metalColor: #c7c7c7;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--bgColor);
+  transition: 1s transform;
+  cursor: grab;
+}
+
+body:active {
+  cursor: grabbing;
+}
+
+p {
+  font-family: sans-serif;
+  font-weight: 600;
+  font-size: 10px;
+  text-align: center;
+  margin-top: 40px;
+  padding: 6px 0;
+  color: var(--secondColor);
+  background-color: var(--primaryColor);
+  user-select: none;
+}
+
+.pencil {
+  --width: 40px;
+  --height: 400px;
+  position: absolute;
+  width: var(--width);
+  height: var(--height);
+  left: calc(50% - var(--width) / 2);
+  top: calc(50% - var(--height) / 2);
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--primaryColor) 30%,
+    var(--secondColor) 30%,
+    var(--secondColor) 35%,
+    var(--primaryColor) 35%,
+    var(--primaryColor) 50%
+  );
+
+  filter: drop-shadow(10px 10px 15px rgba(95, 46, 0, 0.3));
+  transition: 1s;
+  will-change: transform;
+  cursor: pointer;
+}
+
+.pencil::before,
+.pencil::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: var(--height);
+  --heightCorrection: calc(var(--height) * -1);
+  transition: 1s;
+}
+
+.pencil::before {
+  --height: 50px;
+  top: var(--heightCorrection);
+  background-image: linear-gradient(
+    to top,
+    var(--metalColor) 15px,
+    var(--thirdColor) 15px,
+    var(--thirdColor)
+  );
+  border-radius: 10px 10px 0 0;
+}
+
+.pencil::after {
+  --height: 80px;
+  bottom: var(--heightCorrection);
+  background-image: linear-gradient(
+    to top,
+    var(--thirdColor) 30%,
+    var(--tipColor) 35%,
+    var(--tipColor) 90%,
+    var(--primaryColor)
+  );
+  clip-path: polygon(0 0, 100% 0, 52% 100%, 48% 100%);
+}
+
+.pencil:hover {
+  transform: rotate(5deg);
+  transition: 1s;
+}
+
+body:active .pencil {
+  transform: rotate(720deg);
+  transition: 1s;
+}
+
+@media (max-width: 580px), (max-height: 580px) {
+  .pencil {
+    --height: 280px;
+    transition: 1s;
+  }
+}
+
+@media (max-width: 380px), (max-height: 480px) {
+  .pencil {
+    --height: 180px;
+    transition: 1s;
+  }
+
+  .pencil::before {
+    --height: 40px;
+  }
+
+  .pencil::after {
+    clip-path: polygon(0 0, 100% 0, 55% 95%, 45% 100%);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bgColor: #1d1d1d;
+    --primaryColor: #db6e00;
+    --secondColor: #ffe555;
+    --thirdColor: #b43232;
+    --tipColor: #f5f5dc;
+    --metalColor: #969696;
+  }
+}
